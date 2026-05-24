@@ -1,4 +1,5 @@
 using Assets._Scripts.Utilities.Singleton;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -15,6 +16,10 @@ public class GridController : Singleton<GridController> {
     public Dictionary<Vector2Int, TileEntityBase> TileEntities { get; private set; } = new Dictionary<Vector2Int, TileEntityBase>();
     private Camera cam;
 
+    private bool isGridLandScapeMode = false;
+    private bool isScreenLandscape => Screen.width > Screen.height;
+
+    private Bounds bounds;
 
     protected override void Awake() {
         base.Awake();
@@ -22,9 +27,31 @@ public class GridController : Singleton<GridController> {
         this.cam = Camera.main;
     }
     void Start() {
-        Bounds bounds = GenerateGrid();
 
-        SetCamera(bounds);
+        if (!this.isScreenLandscape) {
+            // Portrait
+            if (!(this.size.x < this.size.y)) {
+                int temp = this.size.x;
+                this.size.x = this.size.y;
+                this.size.y = temp;
+            }
+
+            this.isGridLandScapeMode = false;
+
+        } else if (this.isScreenLandscape && this.size.x > this.size.y) {
+            // Landscape
+            if (this.size.y < this.size.x) {
+                int temp = this.size.x;
+                this.size.x = this.size.y;
+                this.size.y = temp;
+            }
+
+            this.isGridLandScapeMode = true;
+        }
+
+        ReCalculateGrid();
+        GenerateGrid();
+        SetCamera();
     }
 
     private void OnDrawGizmos() {
@@ -42,27 +69,50 @@ public class GridController : Singleton<GridController> {
         }
     }
 
-    private void SetCamera(Bounds bounds) {
-        bounds.Expand(this.Grid.cellSize); // Add some padding to the bounds so the tiles are not at the very edge of the screen
+    public void RefreshGridAndCamera() {
+        ReCalculateGrid();
+        this.bounds = CalculateBounds();
+        SetCamera();
+    }
+
+    private void ReCalculateGrid() {
+        // Check the device orientation.
+        if (this.isScreenLandscape && !this.isGridLandScapeMode) {
+            // Landscape
+            this.Grid.transform.RotateAround(this.bounds.center, Vector3.forward, 90f);
+            Vector3 endValue = new Vector3(0, 0, 90f);
+            this.isGridLandScapeMode = true;
+
+        } else if (!this.isScreenLandscape && this.isGridLandScapeMode) {
+            // Portrait
+            if (this.Grid.transform.rotation.z != 0) {
+                this.Grid.transform.RotateAround(this.bounds.center, Vector3.forward, -90f);
+            }
+            this.isGridLandScapeMode = false;
+        }
+    }
+
+    private void SetCamera() {
 
         bool isOrthographic = cam.orthographic;
 
-        var vertical = bounds.size.y;
-        var horizontal = bounds.size.x * (float)cam.pixelHeight / (float)cam.pixelWidth;
+        var vertical = this.bounds.size.y;
+        var horizontal = this.bounds.size.x * (float)cam.pixelHeight / (float)cam.pixelWidth;
         Vector3 distanceback = Vector3.back * this.size.magnitude;
-        this.cam.transform.position = bounds.center + distanceback;
+        this.cam.transform.position = this.bounds.center + distanceback;
 
         if (isOrthographic) {
             this.cam.orthographicSize = Mathf.Max(horizontal, vertical) * 0.5f;
         } else {
             // Not the best way to do this esier with a orthographic camera.
-            this.cam.transform.LookAt(bounds.center);
+            this.cam.transform.LookAt(this.bounds.center);
         }
     }
 
-    private Bounds GenerateGrid() {
+    private void GenerateGrid() {
+
         Vector3 center = this.Grid.GetCellCenterWorld(new Vector3Int((size.x - 1) / 2, (size.y - 1) / 2, 0));
-        Bounds bounds = new Bounds(center, Vector3.zero);
+        this.bounds = new Bounds(center, Vector3.zero);
 
         HashSet<Vector3Int> occupiedTiles = GetExistingTiles();
 
@@ -88,7 +138,26 @@ public class GridController : Singleton<GridController> {
         }
 
         bounds.Expand(this.Grid.cellSize);
-        return bounds;
+        bounds.Expand(this.Grid.cellSize);
+    }
+
+    private Bounds CalculateBounds() {
+        if (this.Grid == null) return new Bounds();
+
+        Vector3 center = this.Grid.GetCellCenterWorld(new Vector3Int((size.x - 1) / 2, (size.y - 1) / 2, 0));
+        Bounds newBounds = new Bounds(center, Vector3.zero);
+
+        for (int x = 0; x < size.x; x++) {
+            for (int y = 0; y < size.y; y++) {
+                Vector3Int cellPosition = new Vector3Int(x, y, 0);
+                newBounds.Encapsulate(this.Grid.GetCellCenterWorld(cellPosition));
+            }
+        }
+
+        newBounds.Expand(this.Grid.cellSize);
+        newBounds.Expand(this.Grid.cellSize);
+
+        return newBounds;
     }
 
     private HashSet<Vector3Int> GetExistingTiles() {
