@@ -80,7 +80,6 @@ public class GridController : Singleton<GridController> {
         if (this.isScreenLandscape && !this.isGridLandScapeMode) {
             // Landscape
             this.Grid.transform.RotateAround(this.bounds.center, Vector3.forward, 90f);
-            Vector3 endValue = new Vector3(0, 0, 90f);
             this.isGridLandScapeMode = true;
 
         } else if (!this.isScreenLandscape && this.isGridLandScapeMode) {
