@@ -26,6 +26,24 @@ public class GridController : MonoBehaviour {
         SetCamera(bounds);
     }
 
+    private void OnDrawGizmos() {
+        if (grid == null) grid = GetComponent<Grid>();
+
+        Gizmos.color = Color.green;
+
+        for (int x = 0; x < size.x; x++) {
+            for (int y = 0; y < size.y; y++) {
+                Vector3Int cell = new Vector3Int(x, y, 0);
+
+                Vector3 center = grid.GetCellCenterWorld(cell);
+
+                Vector3 cellSize = grid.cellSize;
+
+                Gizmos.DrawWireCube(center, cellSize);
+            }
+        }
+    }
+
     private Bounds GenerateGrid() {
         Vector3 center = this.grid.GetCellCenterWorld(new Vector3Int((size.x - 1) / 2, (size.y - 1) / 2, 0));
         Bounds bounds = new Bounds(center, Vector3.zero);
