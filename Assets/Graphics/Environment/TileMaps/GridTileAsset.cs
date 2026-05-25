@@ -6,7 +6,7 @@ public class GridTileAsset : TileBase {
     private Color color;
     private TileEntityBase tilePrefab;
 
-    public void Init(TileEntityBase prefab, Color color) {
+    public void Initialize(TileEntityBase prefab, Color color) {
         this.color = color;
         this.tilePrefab = prefab;
     }
@@ -22,8 +22,8 @@ public class GridTileAsset : TileBase {
         if (instancedGameObject != null) {
             // Grab the TileEntityBase script from the newly spawned GameObject
             if (instancedGameObject.TryGetComponent<TileEntityBase>(out var entity)) {
-                // Register it directly to our dictionary in the GridController!
-                GridController.Instance.RegisterTile(position, entity);
+                // Register it directly to our dictionary in the GridManager!
+                GridManager.Instance.RegisterTile(position, entity);
                 entity.Initialize(new Vector2Int(position.x, position.y), this.color);
             }
             // Apply the sprite and color to the SpriteRenderer of the instanced gameObject
