@@ -144,7 +144,8 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -165,7 +166,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.DefaultCompany.TestProject
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -387,7 +389,10 @@ PlayerSettings:
       m_Height: 36
       m_Kind: 0
       m_SubKind: 
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: Android
+    m_StaticBatching: 1
+    m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs: []
   m_BuildTargetGraphicsJobMode: []
@@ -409,7 +414,10 @@ PlayerSettings:
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding: []
-  m_BuildTargetDefaultTextureCompressionFormat: []
+  m_BuildTargetDefaultTextureCompressionFormat:
+  - serializedVersion: 3
+    m_BuildTarget: Android
+    m_Formats: 01000000
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -676,7 +684,24 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Standalone: GASKELLGAMES;GASKELLGAMES_FOLDERSYSTEM
+    Android: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D;GASKELLGAMES;GASKELLGAMES_FOLDERSYSTEM
+    EmbeddedLinux: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    GameCoreScarlett: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    GameCoreXboxOne: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    Kepler: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    LinuxHeadlessSimulation: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    Nintendo Switch: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    Nintendo Switch 2: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    PS4: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    PS5: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    QNX: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    Standalone: GASKELLGAMES;GASKELLGAMES_FOLDERSYSTEM;DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    VisionOS: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    WebGL: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    Windows Store Apps: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    XboxOne: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    iPhone: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
+    tvOS: DOTWEEN;DOTWEEN_NOAUDIO;DOTWEEN_NOPHYSICS;DOTWEEN_NOPHYSICS2D
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -772,7 +797,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 2
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0

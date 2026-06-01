@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GgPrototype_Grey
-  m_Shader: {fileID: 4800000, guid: 4b77e3b91442dde4aa65b9b60abe64cb, type: 3}
+  m_Shader: {fileID: 4800000, guid: e295052139c593c48afe6bd80f6ca37b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
